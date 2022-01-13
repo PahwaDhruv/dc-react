@@ -4,6 +4,7 @@ import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import PrivateRoute from './components/auth/PrivateRoute';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import Alert from './components/layout/Alert';
@@ -27,7 +28,7 @@ function App() {
 						<Switch>
 							<Route exact path='/register' component={Register} />
 							<Route exact path='/login' component={Login} />
-							<Route exact path='/dashboard' component={Dashboard} />
+							<PrivateRoute exact path='/dashboard' component={Dashboard} />
 							<Route exact path='/logout' component={Logout} />
 						</Switch>
 					</section>

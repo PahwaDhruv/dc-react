@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentProfile } from '../../redux/actions/profileActions';
 
 const Dashboard = () => {
-	return <div>Welcome</div>;
+	const dispatch = useDispatch();
+	const profileState = useSelector((state) => state.profile);
+	useEffect(() => {
+		dispatch(getCurrentProfile());
+	}, []);
+	return <div>Welcome to Dashboard</div>;
 };
 
 export default Dashboard;
