@@ -11,6 +11,8 @@ import Alert from './components/layout/Alert';
 import { fetchUser } from './redux/actions/authActions';
 import Dashboard from './components/dashboard/Dashboard';
 import Logout from './components/auth/Logout';
+import CreateProfile from './components/profileForms/CreateProfile';
+import EditProfile from './components/profileForms/EditProfile';
 
 function App() {
 	useEffect(() => {
@@ -29,6 +31,16 @@ function App() {
 							<Route exact path='/register' component={Register} />
 							<Route exact path='/login' component={Login} />
 							<PrivateRoute exact path='/dashboard' component={Dashboard} />
+							<PrivateRoute
+								exact
+								path='/create-profile'
+								component={CreateProfile}
+							/>
+							<PrivateRoute
+								exact
+								path='/edit-profile'
+								component={EditProfile}
+							/>
 							<Route exact path='/logout' component={Logout} />
 						</Switch>
 					</section>

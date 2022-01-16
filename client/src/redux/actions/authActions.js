@@ -9,6 +9,7 @@ import {
 } from '../reducers/authSlice';
 import { setAlert } from './alertActions';
 import axios from 'axios';
+import { CLEAR_PROFILE } from '../reducers/profileSlice';
 
 //Load USer
 export const fetchUser = () => async (dispatch) => {
@@ -68,6 +69,7 @@ export const login = (auth) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
 	try {
 		const res = await axios.get('/api/users/logout');
+		dispatch(CLEAR_PROFILE());
 		dispatch(logoutSuccess());
 	} catch (err) {
 		console.log(err.response.data);
