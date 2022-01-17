@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { deleteAccount } from '../actions/profileActions';
 
 const initialState = {
 	isLoading: true,
@@ -40,6 +41,20 @@ export const authSlice = createSlice({
 			state.isLoading = false;
 			state.user = null;
 		},
+	},
+	extraReducers: (builder) => {
+		builder
+			.addCase(deleteAccount.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(deleteAccount.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.isAuthenticated = false;
+				state.user = null;
+			})
+			.addCase(deleteAccount.rejected, (state, action) => {
+				state.isLoading = false;
+			});
 	},
 });
 

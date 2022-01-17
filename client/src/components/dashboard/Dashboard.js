@@ -1,9 +1,17 @@
 import React, { Fragment, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getCurrentProfile } from '../../redux/actions/profileActions';
+import {
+	getCurrentProfile,
+	deleteAccount,
+} from '../../redux/actions/profileActions';
 import Spinner from '../layout/Spinner';
 import DashboardNavbar from './DashboardNavbar';
+import Experience from './Experience';
+import Education from './Education';
+import { setAlert } from '../../redux/actions/alertActions';
+import { CLEAR_PROFILE } from '../../redux/reducers/profileSlice';
+import { logout } from '../../redux/actions/authActions';
 
 const Dashboard = () => {
 	const dispatch = useDispatch();
@@ -16,6 +24,22 @@ const Dashboard = () => {
 		dispatch(getCurrentProfile());
 	}, []);
 
+	const handleDeleteAccount = async () => {
+		if (window.confirm('Are you sure you want to delete your account?')) {
+			try {
+				const res = await dispatch(deleteAccount()).unwrap();
+				dispatch(logout());
+			} catch (err) {
+				console.log(err);
+				dispatch(
+					setAlert(
+						'OOPS! Something went wrong. Please try after sometime',
+						'danger'
+					)
+				);
+			}
+		}
+	};
 	return isLoading && profile === null ? (
 		<Spinner />
 	) : (
@@ -27,6 +51,8 @@ const Dashboard = () => {
 			{profile != null ? (
 				<Fragment>
 					<DashboardNavbar />
+					<Experience experience={profile.experience} />
+					<Education education={profile.education} />
 				</Fragment>
 			) : (
 				<Fragment>
@@ -36,6 +62,12 @@ const Dashboard = () => {
 					</Link>
 				</Fragment>
 			)}
+			<div className='my-2'>
+				<button className='btn btn-danger' onClick={handleDeleteAccount}>
+					<i className='fas fa-user-minus'></i>
+					{' Delete My Account'}
+				</button>
+			</div>
 		</Fragment>
 	);
 };

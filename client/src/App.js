@@ -13,6 +13,8 @@ import Dashboard from './components/dashboard/Dashboard';
 import Logout from './components/auth/Logout';
 import CreateProfile from './components/profileForms/CreateProfile';
 import EditProfile from './components/profileForms/EditProfile';
+import AddExperience from './components/profileForms/AddExperience';
+import AddEducation from './components/profileForms/AddEducation';
 
 function App() {
 	useEffect(() => {
@@ -40,6 +42,16 @@ function App() {
 								exact
 								path='/edit-profile'
 								component={EditProfile}
+							/>
+							<PrivateRoute
+								exact
+								path='/add-experience'
+								component={AddExperience}
+							/>
+							<PrivateRoute
+								exact
+								path='/add-education'
+								component={AddEducation}
 							/>
 							<Route exact path='/logout' component={Logout} />
 						</Switch>

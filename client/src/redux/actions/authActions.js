@@ -11,12 +11,16 @@ import { setAlert } from './alertActions';
 import axios from 'axios';
 import { CLEAR_PROFILE } from '../reducers/profileSlice';
 
-//Load USer
+//Load User
 export const fetchUser = () => async (dispatch) => {
 	try {
 		const res = await axios.get('/api/auth');
-		console.log('res', res.data);
+		console.log('res', res);
+		// if (res.data) {
 		dispatch(fetchUserSuccess(res.data));
+		// } else {
+		// 	dispatch(fetchUserError());
+		// }
 	} catch (err) {
 		console.log('err', err.response.data);
 		dispatch(fetchUserError());

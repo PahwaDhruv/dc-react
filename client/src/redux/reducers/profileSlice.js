@@ -1,5 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createProfile, getCurrentProfile } from '../actions/profileActions';
+import {
+	addExperience,
+	createProfile,
+	getCurrentProfile,
+	addEducation,
+	deleteExperience,
+	deleteEducation,
+} from '../actions/profileActions';
 
 const initialState = {
 	profile: null, //holds user's profile or visited profile
@@ -42,7 +49,6 @@ export const profileSlice = createSlice({
 				state.isLoading = false;
 				state.profile = action.payload;
 				state.error = {};
-				// console.log('state, action', state, action);
 			})
 			.addCase(createProfile.rejected, (state, action) => {
 				state.isLoading = false;
@@ -51,6 +57,60 @@ export const profileSlice = createSlice({
 				} else {
 					state.error = action.error;
 				}
+			})
+			.addCase(addExperience.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(addExperience.fulfilled, (state, action) => {
+				state.isLoading = false;
+				console.log('experience fulfilled', action.payload);
+			})
+			.addCase(addExperience.rejected, (state, action) => {
+				state.isLoading = false;
+				console.log('experience rejected', action.payload);
+			})
+			.addCase(addEducation.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(addEducation.fulfilled, (state, action) => {
+				state.isLoading = false;
+				console.log('Education fulfilled', action.payload);
+			})
+			.addCase(addEducation.rejected, (state, action) => {
+				state.isLoading = false;
+				console.log('Education rejected', action.payload);
+			})
+			.addCase(deleteExperience.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(deleteExperience.fulfilled, (state, action) => {
+				const { meta } = action;
+				const { expId } = meta.arg;
+				const idx = state.profile.experience
+					.map((exp) => exp._id)
+					.indexOf(expId);
+				state.profile.experience.splice(idx, 1);
+				state.isLoading = false;
+			})
+			.addCase(deleteExperience.rejected, (state, action) => {
+				state.isLoading = false;
+				console.log('Delete Experience rejected', action);
+			})
+			.addCase(deleteEducation.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(deleteEducation.fulfilled, (state, action) => {
+				const { meta } = action;
+				const { eduId } = meta.arg;
+				const idx = state.profile.education
+					.map((edu) => edu._id)
+					.indexOf(eduId);
+				state.profile.education.splice(idx, 1);
+				state.isLoading = false;
+			})
+			.addCase(deleteEducation.rejected, (state, action) => {
+				state.isLoading = false;
+				console.log('Delete deleteEducation rejected', action);
 			});
 	},
 });
