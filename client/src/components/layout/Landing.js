@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const Landing = () => {
 	const authState = useSelector((state) => state.auth);
@@ -15,7 +15,7 @@ const Landing = () => {
 				<div className='landing-inner'>
 					<h1 className='x-large'>Dev Central</h1>
 					<p className='lead'>
-						Create Blog Posts, portfolis and connect with other developers on
+						Create Blog Posts, portfolios and connect with other developers on
 						the Internet
 					</p>
 					<div className='buttons'>

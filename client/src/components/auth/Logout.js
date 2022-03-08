@@ -11,7 +11,7 @@ const Logout = () => {
 
 	useEffect(() => {
 		dispatch(logout());
-	}, []);
+	}, [dispatch]);
 
 	if (!isAuthenticated) {
 		return <Redirect to='/login' />;

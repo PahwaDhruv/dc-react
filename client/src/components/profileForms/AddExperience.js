@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { setAlert } from '../../redux/actions/alertActions';
 import { addExperience } from '../../redux/actions/profileActions';
@@ -31,6 +31,7 @@ const AddExperience = () => {
 		e.preventDefault();
 		try {
 			const res = await dispatch(addExperience(formData)).unwrap();
+			console.log('res', res);
 			dispatch(setAlert('Experience Added Successfully', 'success'));
 			history.push('/dashboard');
 		} catch (err) {

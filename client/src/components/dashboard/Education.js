@@ -23,18 +23,20 @@ const Education = ({ education }) => {
 	));
 
 	const handleDelete = async (eduId) => {
-		try {
-			const res = await dispatch(deleteEducation({ eduId }));
-			console.log('res', res);
-			dispatch(setAlert('Education Removed Successfully', 'success'));
-		} catch (err) {
-			console.log(err);
-			dispatch(
-				setAlert(
-					'OOPS! Something went wrong. Please try after sometime',
-					'danger'
-				)
-			);
+		if (window.confirm('Are you sure you want to delete your education?')) {
+			try {
+				const res = await dispatch(deleteEducation({ eduId }));
+				console.log('res', res);
+				dispatch(setAlert('Education Removed Successfully', 'success'));
+			} catch (err) {
+				console.log(err);
+				dispatch(
+					setAlert(
+						'OOPS! Something went wrong. Please try after sometime',
+						'danger'
+					)
+				);
+			}
 		}
 	};
 	return (

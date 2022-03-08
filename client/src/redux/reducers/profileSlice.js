@@ -6,6 +6,9 @@ import {
 	addEducation,
 	deleteExperience,
 	deleteEducation,
+	getProfiles,
+	getProfileById,
+	fetchGithubRepos,
 } from '../actions/profileActions';
 
 const initialState = {
@@ -40,6 +43,28 @@ export const profileSlice = createSlice({
 			.addCase(getCurrentProfile.rejected, (state, action) => {
 				state.isLoading = false;
 				// console.log('error', action);
+				state.error = action.payload;
+			})
+			.addCase(getProfiles.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(getProfiles.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.profiles = action.payload;
+			})
+			.addCase(getProfiles.rejected, (state, action) => {
+				state.isLoading = false;
+				state.profiles = [];
+			})
+			.addCase(getProfileById.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(getProfileById.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.profile = action.payload;
+			})
+			.addCase(getProfileById.rejected, (state, action) => {
+				state.isLoading = false;
 				state.error = action.payload;
 			})
 			.addCase(createProfile.pending, (state) => {
@@ -111,6 +136,21 @@ export const profileSlice = createSlice({
 			.addCase(deleteEducation.rejected, (state, action) => {
 				state.isLoading = false;
 				console.log('Delete deleteEducation rejected', action);
+			})
+			.addCase(fetchGithubRepos.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(fetchGithubRepos.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.repos = action.payload;
+			})
+			.addCase(fetchGithubRepos.rejected, (state, action) => {
+				state.isLoading = false;
+				if (action.payload) {
+					state.error = action.payload;
+				} else {
+					state.error = action.error;
+				}
 			});
 	},
 });

@@ -1,20 +1,43 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+//Get Current Profile
 export const getCurrentProfile = createAsyncThunk(
 	'profile/getCurrentProfile',
-	async ({}, { rejectWithValue }) => {
+	async (_, { rejectWithValue }) => {
 		try {
 			const res = await axios.get('/api/profile/me');
 			// console.log('current profile ->', res.data);
 			return res.data;
 		} catch (err) {
-			console.log(err.response.data);
+			// console.log('err', err.response.data);
 			return rejectWithValue(err.response.data);
 		}
 	}
 );
 
+//Get All Profiles
+export const getProfiles = createAsyncThunk('profile/getProfiles', async () => {
+	const res = await axios.get('/api/profile');
+	console.log('profiles', res.data);
+	return res.data;
+});
+
+//Get Profile by id
+export const getProfileById = createAsyncThunk(
+	'profile/getProfileById',
+	async ({ userId }, { rejectWithValue }) => {
+		try {
+			const res = await axios.get(`/api/profile/user/${userId}`);
+			console.log('profile ->', res.data);
+			return res.data;
+		} catch (err) {
+			return rejectWithValue(err.response.data);
+		}
+	}
+);
+
+//Create Profile
 export const createProfile = createAsyncThunk(
 	'profile/createProfile',
 	async (formData, { rejectWithValue }) => {
@@ -39,6 +62,7 @@ export const createProfile = createAsyncThunk(
 	}
 );
 
+//Add Experience
 export const addExperience = createAsyncThunk(
 	'profile/addExperience',
 	async (formData, { rejectWithValue }) => {
@@ -62,6 +86,7 @@ export const addExperience = createAsyncThunk(
 	}
 );
 
+//Add Education
 export const addEducation = createAsyncThunk(
 	'profile/addEducation',
 	async (formData, { rejectWithValue }) => {
@@ -85,6 +110,7 @@ export const addEducation = createAsyncThunk(
 	}
 );
 
+//Delete Experience
 export const deleteExperience = createAsyncThunk(
 	'profile/deleteExperience',
 	async ({ expId }) => {
@@ -94,6 +120,7 @@ export const deleteExperience = createAsyncThunk(
 	}
 );
 
+//Delete Education
 export const deleteEducation = createAsyncThunk(
 	'profile/deleteEducation',
 	async ({ eduId }) => {
@@ -105,9 +132,22 @@ export const deleteEducation = createAsyncThunk(
 
 //Delete account and profile
 export const deleteAccount = createAsyncThunk(
-	'auth/deleteAccount',
+	'profile/deleteAccount',
 	async () => {
 		const res = await axios.delete('/api/profile');
 		return res.data;
+	}
+);
+//Get Github repos
+export const fetchGithubRepos = createAsyncThunk(
+	'profile/fetchGithubRepos',
+	async ({ username }, { rejectWithValue }) => {
+		try {
+			const res = await axios.get(`/api/profile/github/${username}`);
+			console.log('repos ->', res.data);
+			return res.data;
+		} catch (err) {
+			return rejectWithValue(err.response.data);
+		}
 	}
 );

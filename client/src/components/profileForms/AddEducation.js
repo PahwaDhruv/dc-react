@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setAlert } from '../../redux/actions/alertActions';
 import { addEducation } from '../../redux/actions/profileActions';
@@ -34,6 +34,7 @@ const AddEducation = () => {
 		e.preventDefault();
 		try {
 			const res = await dispatch(addEducation(formData)).unwrap();
+			console.log('res', res);
 			dispatch(setAlert('Education Added Successfully', 'success'));
 			history.push('/dashboard');
 		} catch (err) {

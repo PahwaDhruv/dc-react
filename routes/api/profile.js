@@ -287,8 +287,11 @@ router.get('/github/:username', async (req, res) => {
 		const result = await axios.get(url);
 		res.status(200).json(result.data);
 	} catch (err) {
+		console.log('err', err);
 		if (err.response && err.response.data) {
-			return res.status(404).json({ msg: err.response.data.message });
+			return res
+				.status(err.response.status)
+				.json({ msg: err.response.data.message });
 		}
 		res.status(500).send('Internal Server Error');
 	}

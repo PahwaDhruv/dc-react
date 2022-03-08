@@ -8,7 +8,7 @@ import Spinner from '../layout/Spinner';
 
 const EditProfile = () => {
 	const dispatch = useDispatch();
-	const history = useHistory();
+	// const history = useHistory();
 	const profileState = useSelector((state) => state.profile);
 	const { isLoading, profile } = profileState;
 	const [formData, setFormData] = useState({

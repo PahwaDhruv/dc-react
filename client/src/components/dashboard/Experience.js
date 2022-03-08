@@ -25,18 +25,20 @@ const Experience = ({ experience }) => {
 	));
 
 	const handleDelete = async (expId) => {
-		try {
-			const res = await dispatch(deleteExperience({ expId }));
-			console.log('res', res);
-			dispatch(setAlert('Experience Removed Successfully', 'success'));
-		} catch (err) {
-			console.log(err);
-			dispatch(
-				setAlert(
-					'OOPS! Something went wrong. Please try after sometime',
-					'danger'
-				)
-			);
+		if (window.confirm('Are you sure you want to delete your experience?')) {
+			try {
+				const res = await dispatch(deleteExperience({ expId }));
+				console.log('res', res);
+				dispatch(setAlert('Experience Removed Successfully', 'success'));
+			} catch (err) {
+				console.log(err);
+				dispatch(
+					setAlert(
+						'OOPS! Something went wrong. Please try after sometime',
+						'danger'
+					)
+				);
+			}
 		}
 	};
 	return (

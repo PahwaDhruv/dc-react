@@ -15,7 +15,7 @@ import { CLEAR_PROFILE } from '../reducers/profileSlice';
 export const fetchUser = () => async (dispatch) => {
 	try {
 		const res = await axios.get('/api/auth');
-		console.log('res', res);
+		// console.log('res', res);
 		// if (res.data) {
 		dispatch(fetchUserSuccess(res.data));
 		// } else {
@@ -73,6 +73,7 @@ export const login = (auth) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
 	try {
 		const res = await axios.get('/api/users/logout');
+		console.log('logout', res);
 		dispatch(CLEAR_PROFILE());
 		dispatch(logoutSuccess());
 	} catch (err) {

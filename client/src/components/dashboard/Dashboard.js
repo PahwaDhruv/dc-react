@@ -10,7 +10,7 @@ import DashboardNavbar from './DashboardNavbar';
 import Experience from './Experience';
 import Education from './Education';
 import { setAlert } from '../../redux/actions/alertActions';
-import { CLEAR_PROFILE } from '../../redux/reducers/profileSlice';
+// import { CLEAR_PROFILE } from '../../redux/reducers/profileSlice';
 import { logout } from '../../redux/actions/authActions';
 
 const Dashboard = () => {
@@ -21,13 +21,15 @@ const Dashboard = () => {
 	const { isLoading, profile } = profileState;
 
 	useEffect(() => {
+		// console.log('profile', profile);
 		dispatch(getCurrentProfile());
-	}, []);
+	}, [dispatch]);
 
 	const handleDeleteAccount = async () => {
 		if (window.confirm('Are you sure you want to delete your account?')) {
 			try {
 				const res = await dispatch(deleteAccount()).unwrap();
+				console.log('res', res);
 				dispatch(logout());
 			} catch (err) {
 				console.log(err);
@@ -48,7 +50,7 @@ const Dashboard = () => {
 			<p className='lead'>
 				<i className='fas fa-user'></i> Welcome {user && user.name}
 			</p>
-			{profile != null ? (
+			{profile !== null ? (
 				<Fragment>
 					<DashboardNavbar />
 					<Experience experience={profile.experience} />
