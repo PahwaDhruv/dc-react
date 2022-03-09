@@ -19,7 +19,7 @@ const AddExperience = () => {
 
 	const [disableToDate, toggleToDate] = useState(false);
 	const { company, title, location, from, to, current, description } = formData;
-
+	const [disableBtn, setDisableBtn] = useState(false);
 	const handleChange = (e) => {
 		setFormData({
 			...formData,
@@ -28,6 +28,7 @@ const AddExperience = () => {
 	};
 
 	const handleSubmit = async (e) => {
+		setDisableBtn(true);
 		e.preventDefault();
 		try {
 			const res = await dispatch(addExperience(formData)).unwrap();
@@ -39,6 +40,7 @@ const AddExperience = () => {
 			if (errors) {
 				errors.forEach((e) => dispatch(setAlert(e.msg, 'danger')));
 			}
+			setDisableBtn(false);
 		}
 	};
 	return (
@@ -121,7 +123,11 @@ const AddExperience = () => {
 						onChange={handleChange}
 					></textarea>
 				</div>
-				<input type='submit' value='Submit' className='btn btn-primary my-1' />
+				<input
+					type='submit'
+					className='btn btn-primary my-1'
+					value={disableBtn ? 'Please wait...' : 'Submit'}
+				/>
 				<Link to='/dashboard' className='btn my-1'>
 					Go Back
 				</Link>

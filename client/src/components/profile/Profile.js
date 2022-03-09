@@ -14,9 +14,10 @@ const Profile = ({ match }) => {
 	const authState = useSelector((state) => state.auth);
 	const profileState = useSelector((state) => state.profile);
 	const { isLoading, profile } = profileState;
+	const { id } = match.params;
 	useEffect(() => {
-		dispatch(getProfileById({ userId: match.params.id }));
-	}, [dispatch]);
+		dispatch(getProfileById({ userId: id }));
+	}, [dispatch, id]);
 	return (
 		<Fragment>
 			{profile === null || isLoading ? (

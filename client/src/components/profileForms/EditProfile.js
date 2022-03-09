@@ -28,7 +28,7 @@ const EditProfile = () => {
 	const [displaySocialInputs, toggleSocialInputs] = useState(false);
 	useEffect(() => {
 		dispatch(getCurrentProfile());
-	}, []);
+	}, [dispatch]);
 	useEffect(() => {
 		setFormData({
 			company: isLoading || !profile.company ? '' : profile.company,
@@ -62,7 +62,7 @@ const EditProfile = () => {
 	} = formData;
 
 	const handleChange = (e) => {
-		console.log(e.target.name, e.target.value);
+		// console.log(e.target.name, e.target.value);
 		setFormData({
 			...formData,
 			[e.target.name]: e.target.value,
@@ -72,7 +72,7 @@ const EditProfile = () => {
 		e.preventDefault();
 		try {
 			const res = await dispatch(createProfile(formData)).unwrap();
-			console.log('res', res);
+			// console.log('res', res);
 			dispatch(setAlert('Profile Updated Successfully', 'success'));
 			// history.push('/dashboard');
 		} catch (err) {
@@ -83,7 +83,7 @@ const EditProfile = () => {
 			}
 		}
 	};
-	console.log('profile', profile);
+	// console.log('profile', profile);
 	return isLoading && profile === null ? (
 		<Spinner />
 	) : (

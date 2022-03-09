@@ -13,6 +13,7 @@ const Login = () => {
 		password: '',
 	});
 	const { email, password } = formData;
+
 	const handleChange = (e) => {
 		setFormData({
 			...formData,
@@ -22,10 +23,11 @@ const Login = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (email === '' || password === '') {
-			console.log('Please fill in all the values');
 			dispatch(setAlert('Please fill in all the values', 'danger'));
 		} else {
-			dispatch(login(formData));
+			// setDisableBtn(true);
+			const res = await dispatch(login(formData));
+			// console.log('res', res);
 		}
 	};
 
@@ -57,7 +59,7 @@ const Login = () => {
 						onChange={handleChange}
 					/>
 				</div>
-				<input type='submit' className='btn btn-primary' value='Login' />
+				<input type='submit' className='btn btn-primary' value={'Login'} />
 			</form>
 			<p className='my-1'>
 				Don't have an Account? <Link to='/register'>Register</Link>

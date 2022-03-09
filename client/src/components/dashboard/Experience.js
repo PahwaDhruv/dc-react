@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 const Experience = ({ experience }) => {
 	// console.log('exp', experience);
 	const dispatch = useDispatch();
+
 	const experiences = experience.map((exp) => (
 		<tr key={exp._id}>
 			<td>{exp.company}</td>
@@ -18,7 +19,7 @@ const Experience = ({ experience }) => {
 					className='btn btn-danger'
 					onClick={() => handleDelete(exp._id)}
 				>
-					Delete
+					{'Delete'}
 				</button>
 			</td>
 		</tr>
@@ -28,10 +29,12 @@ const Experience = ({ experience }) => {
 		if (window.confirm('Are you sure you want to delete your experience?')) {
 			try {
 				const res = await dispatch(deleteExperience({ expId }));
-				console.log('res', res);
+				// console.log('res', res);
+
 				dispatch(setAlert('Experience Removed Successfully', 'success'));
 			} catch (err) {
 				console.log(err);
+
 				dispatch(
 					setAlert(
 						'OOPS! Something went wrong. Please try after sometime',

@@ -138,7 +138,7 @@ export const profileSlice = createSlice({
 				console.log('Delete deleteEducation rejected', action);
 			})
 			.addCase(fetchGithubRepos.pending, (state) => {
-				state.isLoading = true;
+				// state.isLoading = true;
 			})
 			.addCase(fetchGithubRepos.fulfilled, (state, action) => {
 				state.isLoading = false;

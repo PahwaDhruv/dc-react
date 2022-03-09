@@ -287,7 +287,6 @@ router.get('/github/:username', async (req, res) => {
 		const result = await axios.get(url);
 		res.status(200).json(result.data);
 	} catch (err) {
-		console.log('err', err);
 		if (err.response && err.response.data) {
 			return res
 				.status(err.response.status)
