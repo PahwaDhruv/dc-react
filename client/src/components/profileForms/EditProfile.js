@@ -93,9 +93,7 @@ const EditProfile = () => {
 					};
 				}
 			}
-			// console.log('formData', newFormData);
 			const res = await dispatch(createProfile(newFormData)).unwrap();
-			// console.log('res', res);
 			dispatch(setAlert('Profile Updated Successfully', 'success'));
 			setDisableBtn(false);
 			history.push('/dashboard');
@@ -108,7 +106,7 @@ const EditProfile = () => {
 			}
 		}
 	};
-	// console.log('profile', profile);
+
 	return isLoading && profile === null ? (
 		<Spinner />
 	) : (

@@ -11,15 +11,9 @@ const ProfileTop = ({
 		imageUrl,
 	},
 }) => {
-	// let src='https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200'
 	return (
 		<div className='profile-top bg-primary p-2'>
-			<img
-				src={imageUrl}
-				className='round-image my-1'
-				alt='Profile Photo'
-				style={{ width: '200px', height: '200px' }}
-			/>
+			<img src={imageUrl} className='round-image my-1' alt='Profile Photo' />
 			<h1 className='large'>{name}</h1>
 			<p className='lead'>
 				{status} {company && <span> at {company}</span>}{' '}

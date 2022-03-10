@@ -15,9 +15,10 @@ const ProfileItem = ({
 		<div className='profile bg-light'>
 			<img
 				src={imageUrl}
+				// src='https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200'
 				alt='Profile'
 				className='round-image'
-				style={{ width: '200px', height: '200px' }}
+				// style={{ width: '200px', height: '200px' }}
 			/>
 			<div>
 				<h2>{name}</h2>
