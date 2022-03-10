@@ -31,7 +31,7 @@ const ProfileGithub = ({ username }) => {
 								</a>{' '}
 								{repo.homepage && (
 									<a
-										href={`https://${repo.homepage}`}
+										href={repo.homepage}
 										target='_blank'
 										rel='noopener noreferrer'
 									>

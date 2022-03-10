@@ -27,10 +27,10 @@ ul {
 
 img {
 	width: 100%;
+	height: auto;
 }
 
 // Navbar
-
 .navbar {
 	display: flex;
 	align-items: center;
@@ -80,7 +80,6 @@ img {
 }
 
 //Profiles Page
-
 .profile {
 	display: grid;
 	grid-template-columns: 2fr 4fr 2fr;

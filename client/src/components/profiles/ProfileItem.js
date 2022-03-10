@@ -16,7 +16,7 @@ const ProfileItem = ({
 			<img
 				src={imageUrl}
 				// src='https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200'
-				alt='Profile'
+				alt='Profile Pic'
 				className='round-image'
 				// style={{ width: '200px', height: '200px' }}
 			/>

@@ -13,7 +13,7 @@ const ProfileTop = ({
 }) => {
 	return (
 		<div className='profile-top bg-primary p-2'>
-			<img src={imageUrl} className='round-image my-1' alt='Profile Photo' />
+			<img src={imageUrl} className='round-image my-1' alt='Profile Pic' />
 			<h1 className='large'>{name}</h1>
 			<p className='lead'>
 				{status} {company && <span> at {company}</span>}{' '}
