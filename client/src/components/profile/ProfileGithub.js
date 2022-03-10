@@ -10,6 +10,12 @@ const ProfileGithub = ({ username }) => {
 	useEffect(() => {
 		dispatch(fetchGithubRepos({ username }));
 	}, [dispatch, username]);
+	const getAbsoluteUrl = (str) => {
+		if (!str.startsWith('https')) {
+			return `http://${str}`;
+		}
+		return str;
+	};
 	return (
 		<div className='profile-github'>
 			<h2 className='text-primary my-1'>
@@ -31,7 +37,7 @@ const ProfileGithub = ({ username }) => {
 								</a>{' '}
 								{repo.homepage && (
 									<a
-										href={repo.homepage}
+										href={getAbsoluteUrl(repo.homepage)}
 										target='_blank'
 										rel='noopener noreferrer'
 									>
