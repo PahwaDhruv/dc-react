@@ -5,12 +5,14 @@ import { setAlert } from '../../redux/actions/alertActions';
 import { createProfile } from '../../redux/actions/profileActions';
 import { getCurrentProfile } from '../../redux/actions/profileActions';
 import Spinner from '../layout/Spinner';
+import axios from 'axios';
 
 const EditProfile = () => {
 	const dispatch = useDispatch();
-	// const history = useHistory();
+	const history = useHistory();
 	const profileState = useSelector((state) => state.profile);
 	const { isLoading, profile } = profileState;
+	const [image, setImage] = useState('');
 	const [formData, setFormData] = useState({
 		company: '',
 		website: '',
@@ -26,6 +28,7 @@ const EditProfile = () => {
 		linkedin: '',
 	});
 	const [displaySocialInputs, toggleSocialInputs] = useState(false);
+	const [disableBtn, setDisableBtn] = useState(false);
 	useEffect(() => {
 		dispatch(getCurrentProfile());
 	}, [dispatch]);
@@ -63,20 +66,42 @@ const EditProfile = () => {
 
 	const handleChange = (e) => {
 		// console.log(e.target.name, e.target.value);
-		setFormData({
-			...formData,
-			[e.target.name]: e.target.value,
-		});
+		if (e.target.name === 'image') {
+			setImage(e.target.files[0]);
+		} else {
+			setFormData({
+				...formData,
+				[e.target.name]: e.target.value,
+			});
+		}
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		let newFormData = { ...formData };
+		setDisableBtn(true);
 		try {
-			const res = await dispatch(createProfile(formData)).unwrap();
+			if (image) {
+				const uploadUrl = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/image/upload`;
+				const payload = new FormData();
+				payload.append('file', image);
+				payload.append('upload_preset', process.env.REACT_APP_UPLOAD_PRESET);
+				const uploadRes = await axios.post(uploadUrl, payload);
+				if (uploadRes.status === 200) {
+					newFormData = {
+						...formData,
+						imageUrl: uploadRes.data.secure_url,
+					};
+				}
+			}
+			// console.log('formData', newFormData);
+			const res = await dispatch(createProfile(newFormData)).unwrap();
 			// console.log('res', res);
 			dispatch(setAlert('Profile Updated Successfully', 'success'));
-			// history.push('/dashboard');
+			setDisableBtn(false);
+			history.push('/dashboard');
 		} catch (err) {
 			console.log('err', err);
+			setDisableBtn(false);
 			const { errors } = err;
 			if (errors) {
 				errors.forEach((e) => dispatch(setAlert(e.msg, 'danger')));
@@ -173,7 +198,15 @@ const EditProfile = () => {
 					></textarea>
 					<small className='form-text'>Please provide some info</small>
 				</div>
-
+				<div className='form-group'>
+					<input
+						type='file'
+						name='image'
+						accept='image/*'
+						onChange={handleChange}
+					/>
+					<small className='form-text'>Please choose your profile photo</small>
+				</div>
 				<div className='my-2'>
 					<button
 						type='button'
@@ -239,7 +272,11 @@ const EditProfile = () => {
 					</Fragment>
 				)}
 
-				<input type='submit' value='Update' className='btn btn-primary my-1' />
+				<input
+					type='submit'
+					value={disableBtn ? 'Please wait...' : 'Update'}
+					className='btn btn-primary my-1'
+				/>
 				<Link to='/dashboard' className='btn btn-light my-1'>
 					Go Back
 				</Link>

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { setAlert } from '../../redux/actions/alertActions';
 import { createProfile } from '../../redux/actions/profileActions';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 const CreateProfile = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -14,6 +15,7 @@ const CreateProfile = () => {
 		bio: '',
 		status: '',
 		githubUserName: '',
+
 		skills: '',
 		youtube: '',
 		facebook: '',
@@ -23,6 +25,7 @@ const CreateProfile = () => {
 	});
 	const [displaySocialInputs, toggleSocialInputs] = useState(false);
 	const [disableBtn, setDisableBtn] = useState(false);
+	const [image, setImage] = useState('');
 	const {
 		company,
 		website,
@@ -30,6 +33,7 @@ const CreateProfile = () => {
 		bio,
 		status,
 		githubUserName,
+
 		skills,
 		youtube,
 		facebook,
@@ -40,16 +44,34 @@ const CreateProfile = () => {
 
 	const handleChange = (e) => {
 		// console.log(e.target.name, e.target.value);
-		setFormData({
-			...formData,
-			[e.target.name]: e.target.value,
-		});
+		if (e.target.name === 'image') {
+			setImage(e.target.files[0]);
+		} else {
+			setFormData({
+				...formData,
+				[e.target.name]: e.target.value,
+			});
+		}
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setDisableBtn(true);
+		let newFormData = { ...formData };
 		try {
-			const res = await dispatch(createProfile(formData)).unwrap();
+			if (image) {
+				const uploadUrl = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/image/upload`;
+				const payload = new FormData();
+				payload.append('file', image);
+				payload.append('upload_preset', process.env.REACT_APP_UPLOAD_PRESET);
+				const uploadRes = await axios.post(uploadUrl, payload);
+				if (uploadRes.status === 200) {
+					newFormData = {
+						...formData,
+						imageUrl: uploadRes.data.secure_url,
+					};
+				}
+			}
+			const res = await dispatch(createProfile(newFormData)).unwrap();
 			console.log('res', res);
 			setDisableBtn(false);
 			dispatch(setAlert('Profile Created Successfully', 'success'));
@@ -149,7 +171,17 @@ const CreateProfile = () => {
 					></textarea>
 					<small className='form-text'>Please provide some info</small>
 				</div>
-
+				<div className='form-group'>
+					<input
+						type='file'
+						name='image'
+						accept='image/*'
+						onChange={handleChange}
+					/>
+					<small className='form-text'>
+						Please select your profile picture
+					</small>
+				</div>
 				<div className='my-2'>
 					<button
 						type='button'

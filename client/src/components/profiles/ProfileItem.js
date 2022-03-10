@@ -8,14 +8,16 @@ const ProfileItem = ({
 		company,
 		location,
 		skills,
+		imageUrl,
 	},
 }) => {
 	return (
 		<div className='profile bg-light'>
 			<img
-				src='https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200'
+				src={imageUrl}
 				alt='Profile'
 				className='round-image'
+				style={{ width: '200px', height: '200px' }}
 			/>
 			<div>
 				<h2>{name}</h2>

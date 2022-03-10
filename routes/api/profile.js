@@ -49,6 +49,7 @@ router.post(
 			bio,
 			status,
 			githubUserName,
+			imageUrl,
 			skills,
 			youtube,
 			facebook,
@@ -65,6 +66,7 @@ router.post(
 		if (bio) profileFields.bio = bio;
 		if (status) profileFields.status = status;
 		if (githubUserName) profileFields.githubUserName = githubUserName;
+		if (imageUrl) profileFields.imageUrl = imageUrl;
 		if (skills) {
 			profileFields.skills = skills.split(',').map((skill) => skill.trim());
 		}
