@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const User = require('../../models/User');
 const auth = require('../../middleware/auth');
+const sendEmail = require('../../utils/sendEmail');
 
 // @route- POST /api/users/register
 // @desc - Register a user
@@ -44,6 +45,7 @@ router.post(
 				user.password = await bcrypt.hash(password, salt);
 				//Save user to DB
 				await user.save();
+				// await sendEmail(user);
 				const payload = {
 					user: {
 						id: user.id,
@@ -106,6 +108,8 @@ router.post(
 					],
 				});
 			}
+			// user.verified = true;
+			// await user.save();
 			const payload = {
 				user: {
 					id: user.id,
@@ -128,9 +132,9 @@ router.post(
 	}
 );
 
-// @route- POST /api/users/register
-// @desc - Register a user
-// @access - Public
+// @route- POST /api/users/logout
+// @desc - Logout a user
+// @access - Private
 router.get('/logout', auth, async (req, res) => {
 	req.user = null;
 	res.cookie('jwt', '', { maxAge: 1 });

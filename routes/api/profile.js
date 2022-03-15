@@ -102,7 +102,9 @@ router.post(
 // @access - Private
 router.get('/', async (req, res) => {
 	try {
-		const profiles = await Profile.find().populate('user', ['name']);
+		const profiles = await Profile.find()
+			.populate('user', ['name'])
+			.sort({ _id: -1 });
 		res.json(profiles);
 	} catch (err) {
 		console.log(err.message);
@@ -111,7 +113,7 @@ router.get('/', async (req, res) => {
 });
 
 // @route- GET /api/profile/user/:userId
-// @desc - Get all profiles
+// @desc - Get profile by id
 // @access - Private
 router.get('/user/:userId', async (req, res) => {
 	try {
