@@ -19,7 +19,7 @@ export const getCurrentProfile = createAsyncThunk(
 //Get All Profiles
 export const getProfiles = createAsyncThunk('profile/getProfiles', async () => {
 	const res = await axios.get('/api/profile');
-	console.log('profiles', res.data);
+	// console.log('profiles', res.data);
 	return res.data;
 });
 

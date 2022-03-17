@@ -11,7 +11,7 @@ export const authSlice = createSlice({
 	name: 'auth',
 	initialState,
 	reducers: {
-		registerSuccess: (state, action) => {
+		registerSuccess: (state) => {
 			state.isAuthenticated = true;
 			state.isLoading = false;
 		},
@@ -28,7 +28,7 @@ export const authSlice = createSlice({
 			state.isAuthenticated = false;
 			state.isLoading = false;
 		},
-		loginSuccess: (state, action) => {
+		loginSuccess: (state) => {
 			state.isAuthenticated = true;
 			state.isLoading = false;
 		},

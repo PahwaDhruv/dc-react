@@ -37,8 +37,12 @@ export const register = (user) => async (dispatch) => {
 	try {
 		const res = await axios.post('/api/users/register', body, config);
 		console.log(res.data);
-		dispatch(registerSuccess(res.data));
-		dispatch(fetchUser());
+		const { msg } = res.data;
+		if (msg) {
+			dispatch(setAlert(msg, 'success'));
+		}
+		// dispatch(registerSuccess());
+		// dispatch(fetchUser());
 	} catch (err) {
 		const { errors } = err.response.data;
 		if (errors) {
@@ -58,8 +62,13 @@ export const login = (auth) => async (dispatch) => {
 	try {
 		const res = await axios.post('/api/users/login', body, config);
 		console.log(res.data);
-		dispatch(loginSuccess(res.data));
-		dispatch(fetchUser());
+		const { msg } = res.data;
+		if (msg) {
+			dispatch(setAlert(msg, 'success'));
+		} else {
+			// dispatch(loginSuccess());
+			dispatch(fetchUser());
+		}
 	} catch (err) {
 		console.log(err.response.data);
 		const { errors } = err.response.data;
@@ -73,7 +82,7 @@ export const login = (auth) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
 	try {
 		const res = await axios.get('/api/users/logout');
-		console.log('logout', res);
+		// console.log('logout', res);
 		dispatch(CLEAR_PROFILE());
 		dispatch(logoutSuccess());
 	} catch (err) {

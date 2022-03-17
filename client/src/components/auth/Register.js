@@ -15,6 +15,7 @@ const Register = () => {
 		confirmPassword: '',
 	});
 	const { name, email, password, confirmPassword } = formData;
+
 	const handleChange = (e) => {
 		setFormData({
 			...formData,
@@ -23,6 +24,7 @@ const Register = () => {
 	};
 	const handleSubmit = (e) => {
 		e.preventDefault();
+
 		if (password !== confirmPassword) {
 			dispatch(setAlert('Password do not match', 'danger'));
 		} else {
@@ -79,7 +81,7 @@ const Register = () => {
 						onChange={handleChange}
 					/>
 				</div>
-				<input type='submit' className='btn btn-primary' value='Register' />
+				<input type='submit' className='btn btn-primary' value={'Register'} />
 			</form>
 			<p className='my-1'>
 				Already have an Account? <Link to='/login'>Login</Link>

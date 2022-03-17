@@ -45,7 +45,7 @@ router.post(
 				user.password = await bcrypt.hash(password, salt);
 				//Save user to DB
 				await user.save();
-				// await sendEmail(user);
+
 				const payload = {
 					user: {
 						id: user.id,
@@ -55,10 +55,18 @@ router.post(
 					payload,
 					process.env.SECRET,
 					{ expiresIn: 3600 },
-					(err, token) => {
+					async (err, token) => {
 						if (err) throw err;
-						res.cookie('jwt', token, { httpOnly: true, maxAge: 3600 * 1000 });
-						res.status(201).json({ token });
+						// res.cookie('jwt', token, { httpOnly: true, maxAge: 3600 * 1000 });
+						await sendEmail({
+							to: user.email,
+							subject: 'Dev Central - Account Verification',
+							name: user.name,
+							url: `${process.env.BASE_URL}/api/users/verify/${token}`,
+						});
+						res
+							.status(201)
+							.json({ msg: 'Please check your mailbox to verify your email' });
 					}
 				);
 			}
@@ -68,6 +76,37 @@ router.post(
 		}
 	}
 );
+
+// @route- POST /api/users/register
+// @desc - Register a user
+// @access - Public
+router.get('/verify/:token', (req, res) => {
+	const { token } = req.params;
+	if (token) {
+		jwt.verify(token, process.env.SECRET, async function (err, decodedToken) {
+			if (err) {
+				return res.status(400).json({ msg: 'Incorrect or Expired link' });
+			}
+			const { user } = decodedToken;
+			const { id } = user;
+			try {
+				let existingUser = await User.findOne({ _id: id });
+				if (!existingUser) {
+					return res.status(400).json({
+						msg: 'User not found',
+					});
+				}
+				await existingUser.updateOne({ _id: id, verified: true });
+				res.status(200).json({ msg: 'Email Verified Successfully' });
+			} catch (error) {
+				console.log(error.message);
+				res.status(500).send('Internal Server Error');
+			}
+		});
+	} else {
+		res.json({ msg: 'Invalid Token' });
+	}
+});
 
 // @route- POST /api/users/login
 // @desc - User login
@@ -108,8 +147,7 @@ router.post(
 					],
 				});
 			}
-			// user.verified = true;
-			// await user.save();
+
 			const payload = {
 				user: {
 					id: user.id,
@@ -119,8 +157,19 @@ router.post(
 				payload,
 				process.env.SECRET,
 				{ expiresIn: 3600 },
-				(err, token) => {
+				async (err, token) => {
 					if (err) throw err;
+					if (!user.verified) {
+						await sendEmail({
+							to: user.email,
+							subject: 'Dev Central - Account Verification',
+							name: user.name,
+							url: `${process.env.BASE_URL}/api/users/verify/${token}`,
+						});
+						return res.status(200).json({
+							msg: 'Email not verified. Please check your mailbox to verify it',
+						});
+					}
 					res.cookie('jwt', token, { httpOnly: true, maxAge: 3600 * 1000 });
 					res.status(200).json({ token });
 				}

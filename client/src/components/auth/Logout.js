@@ -7,7 +7,6 @@ const Logout = () => {
 	const dispatch = useDispatch();
 	const authState = useSelector((state) => state.auth);
 	const { isAuthenticated } = authState;
-	console.log(isAuthenticated);
 
 	useEffect(() => {
 		dispatch(logout());
