@@ -1,4 +1,5 @@
 import React from 'react';
+import { DEFAULT_IMG } from '../../utils/Constant';
 
 const ProfileTop = ({
 	profile: {
@@ -13,7 +14,11 @@ const ProfileTop = ({
 }) => {
 	return (
 		<div className='profile-top bg-primary p-2'>
-			<img src={imageUrl} className='round-image my-1' alt='Profile Pic' />
+			<img
+				src={imageUrl ? imageUrl : DEFAULT_IMG}
+				className='round-image my-1'
+				alt='Profile Pic'
+			/>
 			<h1 className='large'>{name}</h1>
 			<p className='lead'>
 				{status} {company && <span> at {company}</span>}{' '}

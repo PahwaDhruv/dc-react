@@ -53,10 +53,15 @@ img {
 
 		&:hover {
 			color: $primary-color;
+			border-bottom: 0.5px solid #fff;
+			transition: 0.2s ease-in;
 		}
 	}
 }
-
+.selected {
+	color: $primary-color !important;
+	border-bottom: 0.5px solid #fff !important;
+}
 //Landing
 .landing {
 	position: relative;
@@ -172,12 +177,12 @@ img {
 	}
 }
 
-//Posts Page
-.post-form-header {
+//Blogs Page
+.blog-form-header {
 	padding: 0.5rem;
 }
 
-.post {
+.blog {
 	display: grid;
 	grid-template-columns: 1fr 4fr;
 	gap: 2rem;
@@ -186,6 +191,12 @@ img {
 	& > div:first-child {
 		text-align: center;
 	}
+}
+
+.blog-date {
+	color: #aaa;
+	font-size: 0.8rem;
+	margin-bottom: 0.5rem;
 }
 
 #loader {

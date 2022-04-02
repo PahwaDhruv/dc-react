@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const Navbar = () => {
@@ -8,13 +8,20 @@ const Navbar = () => {
 	const authLinks = (
 		<ul>
 			<li>
-				<Link to='/profiles'>Developers</Link>
+				<NavLink to='/profiles' activeClassName='selected'>
+					Developers
+				</NavLink>
 			</li>
 			<li>
-				<Link to='/dashboard'>
+				<NavLink to='/blogs' activeClassName='selected'>
+					Blogs
+				</NavLink>
+			</li>
+			<li>
+				<NavLink to='/dashboard' activeClassName='selected'>
 					<i className='fas fa-user'></i>{' '}
 					<span className='hide-sm'>Dashboard</span>
-				</Link>
+				</NavLink>
 			</li>
 			<li>
 				<Link to='/logout'>
@@ -27,13 +34,19 @@ const Navbar = () => {
 	const guestLinks = (
 		<ul>
 			<li>
-				<Link to='/profiles'>Developers</Link>
+				<NavLink exact to='/profiles' activeClassName='selected'>
+					Developers
+				</NavLink>
 			</li>
 			<li>
-				<Link to='/register'>Register</Link>
+				<NavLink to='/register' activeClassName='selected'>
+					Register
+				</NavLink>
 			</li>
 			<li>
-				<Link to='/login'>Login</Link>
+				<NavLink to='/login' activeClassName='selected'>
+					Login
+				</NavLink>
 			</li>
 		</ul>
 	);

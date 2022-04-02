@@ -13,6 +13,7 @@ import Profiles from '../profiles/Profiles';
 import Profile from '../profile/Profile';
 import NotFound from '../layout/NotFound';
 import Alert from '../layout/Alert';
+import Blogs from '../blogs/Blogs';
 
 const Routes = () => {
 	return (
@@ -28,6 +29,7 @@ const Routes = () => {
 				<PrivateRoute exact path='/edit-profile' component={EditProfile} />
 				<PrivateRoute exact path='/add-experience' component={AddExperience} />
 				<PrivateRoute exact path='/add-education' component={AddEducation} />
+				<PrivateRoute exact path='/blogs' component={Blogs} />
 				<Route exact path='/logout' component={Logout} />
 				<Route component={NotFound}></Route>
 			</Switch>
