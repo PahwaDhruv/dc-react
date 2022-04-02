@@ -102,17 +102,23 @@ router.delete('/:blogId', auth, async (req, res) => {
 // @route- PUT /api/blogs/like/:blogId
 // @desc - Like a blog
 // @access - Private
-router.put('/like/:blogId', auth, async (req, res) => {
+router.put('/toggleLike/:blogId', auth, async (req, res) => {
 	try {
 		const blog = await Blog.findById(req.params.blogId);
 		if (!blog) {
 			return res.status(404).json({ msg: 'No Blog Found' });
 		}
+		//user has already liked the post
 		if (
 			blog.likes.filter((like) => like.user.toString() === req.user.id).length >
 			0
 		) {
-			return res.status(400).json({ msg: 'Blog already liked' });
+			const idx = blog.likes
+				.map((like) => like.user.toString())
+				.indexOf(req.user.id);
+			blog.likes.splice(idx, 1);
+			await blog.save();
+			return res.json(blog.likes);
 		}
 		blog.likes.push({ user: req.user.id });
 		await blog.save();
@@ -129,33 +135,33 @@ router.put('/like/:blogId', auth, async (req, res) => {
 // @route- PUT /api/blogs/unlike/:blogId
 // @desc - Unlike a blog
 // @access - Private
-router.put('/unlike/:blogId', auth, async (req, res) => {
-	try {
-		const blog = await Blog.findById(req.params.blogId);
-		if (!blog) {
-			return res.status(404).json({ msg: 'No Blog Found' });
-		}
-		//Check if Blog has already been liked or not
-		if (
-			blog.likes.filter((like) => like.user.toString() === req.user.id)
-				.length === 0
-		) {
-			return res.status(400).json({ msg: 'Blog has not yet been liked' });
-		}
-		const idx = blog.likes
-			.map((like) => like.user.toString())
-			.indexOf(req.user.id);
-		blog.likes.splice(idx, 1);
-		await blog.save();
-		res.json(blog.likes);
-	} catch (err) {
-		console.error(err.message);
-		if (err.kind === 'ObjectId') {
-			return res.status(404).json({ msg: 'No Blog Found' });
-		}
-		res.status(500).send('Internal Server Error');
-	}
-});
+// router.put('/unlike/:blogId', auth, async (req, res) => {
+// 	try {
+// 		const blog = await Blog.findById(req.params.blogId);
+// 		if (!blog) {
+// 			return res.status(404).json({ msg: 'No Blog Found' });
+// 		}
+// 		//Check if Blog has already been liked or not
+// 		if (
+// 			blog.likes.filter((like) => like.user.toString() === req.user.id)
+// 				.length === 0
+// 		) {
+// 			return res.status(400).json({ msg: 'Blog has not yet been liked' });
+// 		}
+// 		const idx = blog.likes
+// 			.map((like) => like.user.toString())
+// 			.indexOf(req.user.id);
+// 		blog.likes.splice(idx, 1);
+// 		await blog.save();
+// 		res.json(blog.likes);
+// 	} catch (err) {
+// 		console.error(err.message);
+// 		if (err.kind === 'ObjectId') {
+// 			return res.status(404).json({ msg: 'No Blog Found' });
+// 		}
+// 		res.status(500).send('Internal Server Error');
+// 	}
+// });
 
 // @route- POST /api/blogs/comment/:blogId
 // @desc - Comment on a Blog

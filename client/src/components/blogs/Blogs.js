@@ -1,7 +1,9 @@
 import React, { Fragment, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchBlogs } from '../../redux/actions/blogActions';
+import { Link } from 'react-router-dom';
 import Spinner from '../layout/Spinner';
+import AddBlog from './AddBlog';
 import BlogItem from './BlogItem';
 
 const Blogs = () => {
@@ -19,7 +21,9 @@ const Blogs = () => {
 			<p className='lead'>
 				<i className='fas fa-user'></i> Welcome to the Community
 			</p>
-			{/* Post Form */}
+			<Link to='/createBlog' className='btn btn-primary'>
+				Create New Blog
+			</Link>
 			<div className='blogs'>
 				{blogs.map((blog) => (
 					<BlogItem key={blog._id} blog={blog}></BlogItem>

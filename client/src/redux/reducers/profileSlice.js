@@ -65,6 +65,7 @@ export const profileSlice = createSlice({
 			})
 			.addCase(getProfileById.rejected, (state, action) => {
 				state.isLoading = false;
+				state.profile = null;
 				state.error = action.payload;
 			})
 			.addCase(createProfile.pending, (state) => {

@@ -56,7 +56,6 @@ export const createProfile = createAsyncThunk(
 			if (!error.response) {
 				throw err;
 			}
-			// console.log('err', err.response.data);
 			return rejectWithValue(err.response.data);
 		}
 	}
