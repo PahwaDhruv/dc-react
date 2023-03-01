@@ -3,8 +3,8 @@ const nodemailer = require('nodemailer');
 module.exports = async ({ to, subject, name, url }) => {
 	try {
 		const transporter = nodemailer.createTransport({
-// 			service: 'gmail',
-			host: process.env.SMTP_HOST,
+			service: 'gmail',
+// 			host: process.env.SMTP_HOST,
 			port: process.env.SMTP_PORT,
 			auth: {
 				user: process.env.AUTH_USER,
